@@ -19,45 +19,36 @@ class ShowIdeasTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $categoryOne = Category::factory()->create([
-            'name' => 'Category 1'
-        ]);
-
-        $categorytwo = Category::factory()->create([
-            'name' => 'Category 2'
-        ]);
+        $categoryOne = Category::factory()->create(['name' => 'Category 1']);
+        $categoryTwo = Category::factory()->create(['name' => 'Category 2']);
 
         $statusOpen = Status::factory()->create(['name' => 'Open', 'classes' => 'bg-gray-200']);
         $statusConsidering = Status::factory()->create(['name' => 'Considering', 'classes' => 'bg-purple text-white']);
 
         $ideaOne = Idea::factory()->create([
             'user_id' => $user->id,
-            'title' => 'My first idea',
+            'title' => 'My First Idea',
             'category_id' => $categoryOne->id,
             'status_id' => $statusOpen->id,
-            'description' => 'Description of my first idea'
+            'description' => 'Description of my first idea',
         ]);
 
         $ideaTwo = Idea::factory()->create([
             'user_id' => $user->id,
-            'title' => 'My second idea',
-            'category_id' => $categorytwo->id,
+            'title' => 'My Second Idea',
+            'category_id' => $categoryTwo->id,
             'status_id' => $statusConsidering->id,
-            'description' => 'Description of my second idea'
+            'description' => 'Description of my second idea',
         ]);
-
         $response = $this->get(route('idea.index'));
-
         $response->assertSuccessful();
         $response->assertSee($ideaOne->title);
         $response->assertSee($ideaOne->description);
         $response->assertSee($categoryOne->name);
-       // $response->assertSeeText('Open');
         $response->assertSee('<div class="bg-gray-200 text-xxs font-bold uppercase leading-none rounded-full text-center w-28 h-7 py-2 px-4">Open</div>', false);
         $response->assertSee($ideaTwo->title);
         $response->assertSee($ideaTwo->description);
-        $response->assertSee($categorytwo->name);
-        //$response->assertSeeText('Considering');
+        $response->assertSee($categoryTwo->name);
         $response->assertSee('<div class="bg-purple text-white text-xxs font-bold uppercase leading-none rounded-full text-center w-28 h-7 py-2 px-4">Considering</div>', false);
     }
 
@@ -67,61 +58,21 @@ class ShowIdeasTest extends TestCase
         $user = User::factory()->create();
 
         $categoryOne = Category::factory()->create(['name' => 'Category 1']);
-        $categoryTwo = Category::factory()->create(['name' => 'Category 2']);
 
         $statusOpen = Status::factory()->create(['name' => 'Open', 'classes' => 'bg-gray-200']);
 
-        $idea1 = Idea::factory()->create([
+        $idea = Idea::factory()->create([
             'user_id' => $user->id,
             'category_id' => $categoryOne->id,
             'status_id' => $statusOpen->id,
-            'title' => 'My first idea',
-            //'description' => 'My description'
+            'title' => 'My First Idea',
+            'description' => 'Description of my first idea',
         ]);
-
-        $idea2 = Idea::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $categoryTwo->id,
-            'status_id' => $statusOpen->id,
-            'title' => 'My second idea'
-        ]);
-
-        $response = $this->get(route('idea.show', $idea1));
-
+        $response = $this->get(route('idea.show', $idea));
         $response->assertSuccessful();
-        $response->assertSee($idea1->title);
+        $response->assertSee($idea->title);
+        $response->assertSee($idea->description);
         $response->assertSee($categoryOne->name);
-        //$response->assertSeeText('Open');
         $response->assertSee('<div class="bg-gray-200 text-xxs font-bold uppercase leading-none rounded-full text-center w-28 h-7 py-2 px-4">Open</div>', false);
-        //$response->assertDontSee($idea2->title);
-        //$response->assertDontSee($categoryTwo->name);
-    }
-
-    /** @test */
-    public function ideas_pagination_works()
-    {
-        $user = User::factory()->create();
-
-        $categoryOne = Category::factory()->create(['name' => 'Category 1']);
-
-        $statusOpen = Status::factory()->create(['name' => 'Open', 'classes' => 'bg-gray-200']);
-
-        Idea::factory(Idea::PAGINATION_COUNT + 1)->create([
-            'user_id' => $user->id,
-            'category_id' => $categoryOne->id,
-            'status_id' => $statusOpen->id,
-        ]);
-        $ideaOne = Idea::find(1);
-        $ideaOne->title = 'My First Idea';
-        $ideaOne->save();
-        $ideaEleven = Idea::find(11);
-        $ideaEleven->title = 'My Eleventh Idea';
-        $ideaEleven->save();
-        $response = $this->get('/');
-        $response->assertSee($ideaEleven->title);
-        $response->assertDontSee($ideaOne->title);
-        $response = $this->get('/?page=2');
-        $response->assertSee($ideaOne->title);
-        $response->assertDontSee($ideaEleven->title);
     }
 }
