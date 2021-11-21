@@ -25,10 +25,10 @@ class StatusFilters extends Component
     {
         $this->statusCount = Status::getCount();
 
-        /*if (Route::currentRouteName() === 'idea.show') { // nije neophodno
+        if (Route::currentRouteName() === 'idea.show') { // nije neophodno
             $this->status = null;
             $this->queryString = [];
-        }*/
+        }
     }
 
     public function setStatus($newStatus)

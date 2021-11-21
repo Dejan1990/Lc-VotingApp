@@ -4,7 +4,7 @@
             <a 
                 wire:click.prevent="setStatus('')"
                 href="#" 
-                class="border-b-4 pb-3 border-blue @if($status === '') text-gray-900 border-blue @endif"
+                class="border-b-4 pb-3 hover:border-blue @if($status === '')) text-gray-900 border-blue @endif"
             >
                 All Ideas ({{ $statusCount['all_statuses'] }})
             </a>
