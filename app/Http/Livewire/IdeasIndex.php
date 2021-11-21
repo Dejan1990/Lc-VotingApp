@@ -14,7 +14,7 @@ class IdeasIndex extends Component
 
     public function render()
     {
-        $statuses = Status::all()->pluck('id', 'name');
+        $statuses = Status::all()->pluck('id', 'name');// ovo smo postavili da iskoristimo u when
 
         return view('livewire.ideas-index', [
             'ideas' => Idea::with('user', 'category', 'status')

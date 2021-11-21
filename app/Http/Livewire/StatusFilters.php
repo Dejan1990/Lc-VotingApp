@@ -2,13 +2,15 @@
 
 namespace App\Http\Livewire;
 
-use Illuminate\Support\Facades\Route;
+use App\Models\Status;
 use Livewire\Component;
+use Illuminate\Support\Facades\Route;
 
 class StatusFilters extends Component
 {
     public $status = '';
     //public $status = ''; This way it won't show ?status= when status is empty
+    public $statusCount;
 
     protected $queryString = [
         'status' => ['except' => '']
@@ -19,23 +21,26 @@ class StatusFilters extends Component
         https://laravel-livewire.com/docs/2.x/query-string ("Keeping A Clean Query String" section)
     ];*/
 
-    public function mount()
+    public function mount() 
     {
-        if (Route::currentRouteName() === 'idea.show') {
+        $this->statusCount = Status::getCount();
+
+        /*if (Route::currentRouteName() === 'idea.show') { // nije neophodno
             $this->status = null;
             $this->queryString = [];
-        }
+        }*/
     }
 
     public function setStatus($newStatus)
     {
         $this->status = $newStatus;
+
         // dd(Route::currentRouteName());
 
         //if ($this->getPreviousRouteName() === 'idea.show') {
         return redirect()->route('idea.index', [
-            'status' => $this->status
-        ]);
+                'status' => $this->status,
+            ]);
         //}
     }
 
