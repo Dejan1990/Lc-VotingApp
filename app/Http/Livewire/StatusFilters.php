@@ -8,13 +8,9 @@ use Illuminate\Support\Facades\Route;
 
 class StatusFilters extends Component
 {
-    public $status = '';
+    public $status;
     //public $status = ''; This way it won't show ?status= when status is empty
     public $statusCount;
-
-    protected $queryString = [
-        'status' => ['except' => '']
-    ];
 
     /*protected $queryString = [ This way it won't show ?status= when status is empty
         'status' => ['except' => ''], 
@@ -24,24 +20,23 @@ class StatusFilters extends Component
     public function mount() 
     {
         $this->statusCount = Status::getCount();
+        $this->status = request()->status ?? '';
 
         if (Route::currentRouteName() === 'idea.show') { // nije neophodno
             $this->status = null;
-            $this->queryString = [];
         }
     }
 
     public function setStatus($newStatus)
     {
         $this->status = $newStatus;
+        $this->emit('queryStringUpdatedStatus', $this->status);
 
-        // dd(Route::currentRouteName());
-
-        //if ($this->getPreviousRouteName() === 'idea.show') {
-        return redirect()->route('idea.index', [
-                'status' => $this->status,
+        if ($this->getPreviousRouteName() === 'idea.show') {
+            return redirect()->route('idea.index', [
+                'status' => $this->status
             ]);
-        //}
+        }
     }
 
     public function render()
