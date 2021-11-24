@@ -115,9 +115,11 @@
                     </form>
                 </div>
             </div>
-            @if (auth()->user()->isAdmin())
-                <livewire:set-status :idea="$idea" />
-            @endif
+            @auth
+                @if (auth()->user()->isAdmin())
+                    <livewire:set-status :idea="$idea" />
+                @endif
+            @endauth
         </div>
 
         <div class="hidden md:flex items-center space-x-3">
