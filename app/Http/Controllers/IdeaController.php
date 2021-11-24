@@ -50,6 +50,9 @@ class IdeaController extends Controller
         return view('idea.show', [
             'idea' => $idea,
             'votesCount' => $idea->votes()->count(),
+            'backUrl' => url()->previous() !== url()->full() // url()->full() Get the current URL including the query string...
+                ? url()->previous() // Get the full URL for the previous request...
+                : route('idea.index')
         ]);
     }
 

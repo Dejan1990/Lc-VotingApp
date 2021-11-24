@@ -3,7 +3,7 @@
         <li>
             <a 
                 wire:click.prevent="setStatus('')"
-                href="#" 
+                href="{{ route('idea.index', ['status' => '']) }}" 
                 class="border-b-4 pb-3 hover:border-blue @if($status === '')) text-gray-900 border-blue @endif"
             >
                 All Ideas ({{ $statusCount['all_statuses'] }})
@@ -12,7 +12,7 @@
         <li>
             <a 
                 wire:click.prevent="setStatus('Considering')"
-                href="#" 
+                href="{{ route('idea.index', ['status' => 'Considering']) }}" 
                 class="text-gray-400 transition duration-150 ease-in border-b-4 pb-3 hover:border-blue @if($status === 'Considering') text-gray-900 border-blue @endif"
             >
                 Considering ({{ $statusCount['considering'] }})
@@ -21,7 +21,7 @@
         <li>
             <a 
                 wire:click.prevent="setStatus('In Progress')"
-                href="#" 
+                href="{{ route('idea.index', ['status' => 'In Progress']) }}" 
                 class="text-gray-400 transition duration-150 ease-in border-b-4 pb-3 hover:border-blue @if($status === 'In Progress') text-gray-900 border-blue @endif"
             >
                 In Progress ({{ $statusCount['in_progress'] }})
@@ -32,7 +32,7 @@
         <li>
             <a 
                 wire:click.prevent="setStatus('Implemented')"
-                href="#" 
+                href="{{ route('idea.index', ['status' => 'Implemented']) }}" 
                 class="text-gray-400 transition duration-150 ease-in border-b-4 pb-3 hover:border-blue @if($status === 'Implemented') text-gray-900 border-blue @endif"
             >
                 Implemented ({{ $statusCount['implemented'] }})
@@ -41,7 +41,7 @@
         <li>
             <a 
                 wire:click.prevent="setStatus('Closed')"
-                href="#" 
+                href="{{ route('idea.index', ['status' => 'Closed']) }}" 
                 class="text-gray-400 transition duration-150 ease-in border-b-4 pb-3 hover:border-blue @if($status === 'Closed') text-gray-900 border-blue @endif"
             >
                 Closed ({{ $statusCount['closed'] }})
