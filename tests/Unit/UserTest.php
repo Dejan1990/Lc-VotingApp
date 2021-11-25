@@ -14,12 +14,10 @@ class UserTest extends TestCase
     public function can_check_is_user_is_admin()
     {
         $user = User::factory()->create([
-            'name' => 'Admin',
             'email' => 'admin@mail.com'
         ]);
 
         $user2 = User::factory()->create([
-            'name' => 'Ana',
             'email' => 'ana@mail.com'
         ]);
 

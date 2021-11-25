@@ -20,111 +20,18 @@ class StatusTest extends TestCase
         Idea::factory()->count(15)->forUser($user)->forCategory(['name' => 'Considering'])->create();
             primer iz komentara
         */
-        $user = User::factory()->create();
 
-        $categoryOne = Category::factory()->create(['name' => 'Category 1']);
-
-        $statusOpen = Status::factory()->create(['name' => 'Open']);
-        $statusConsidering = Status::factory()->create(['name' => 'Considering']);
-        $statusInProgress = Status::factory()->create(['name' => 'Considering']);
-        $statusImplemented = Status::factory()->create(['name' => 'Implemented']);
-        $statusClosed = Status::factory()->create(['name' => 'Closed']);
-
-        Idea::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $categoryOne->id,
-            'status_id' => $statusOpen->id,
-        ]);
-
-        Idea::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $categoryOne->id,
-            'status_id' => $statusConsidering->id,
-        ]);
-
-        Idea::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $categoryOne->id,
-            'status_id' => $statusConsidering->id,
-        ]);
-
-        Idea::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $categoryOne->id,
-            'status_id' => $statusInProgress->id,
-        ]);
-
-        Idea::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $categoryOne->id,
-            'status_id' => $statusInProgress->id,
-        ]);
-
-        Idea::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $categoryOne->id,
-            'status_id' => $statusInProgress->id,
-        ]);
-
-        Idea::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $categoryOne->id,
-            'status_id' => $statusImplemented->id,
-        ]);
-
-        Idea::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $categoryOne->id,
-            'status_id' => $statusImplemented->id,
-        ]);
-
-        Idea::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $categoryOne->id,
-            'status_id' => $statusImplemented->id,
-        ]);
-
-        Idea::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $categoryOne->id,
-            'status_id' => $statusImplemented->id,
-        ]);
-
-        Idea::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $categoryOne->id,
-            'status_id' => $statusClosed->id,
-        ]);
-
-        Idea::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $categoryOne->id,
-            'status_id' => $statusClosed->id,
-        ]);
-
-        Idea::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $categoryOne->id,
-            'status_id' => $statusClosed->id,
-        ]);
-
-        Idea::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $categoryOne->id,
-            'status_id' => $statusClosed->id,
-        ]);
-
-        Idea::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $categoryOne->id,
-            'status_id' => $statusClosed->id,
-        ]);
+        Idea::factory()->count(5)->forUser()->forStatus(['name' => 'Open'])->create();
+        Idea::factory()->count(4)->forUser()->forStatus(['name' => 'Considering'])->create();
+        Idea::factory()->count(3)->forUser()->forStatus(['name' => 'In Progress'])->create();
+        Idea::factory()->count(2)->forUser()->forStatus(['name' => 'Implemented'])->create();
+        Idea::factory()->count(1)->forUser()->forStatus(['name' => 'Closed'])->create();
 
         $this->assertEquals(15, Status::getCount()['all_statuses']);
-        $this->assertEquals(1, Status::getCount()['open']);
-        $this->assertEquals(2, Status::getCount()['considering']);
+        $this->assertEquals(5, Status::getCount()['open']);
+        $this->assertEquals(4, Status::getCount()['considering']);
         $this->assertEquals(3, Status::getCount()['in_progress']);
-        $this->assertEquals(4, Status::getCount()['implemented']);
-        $this->assertEquals(5, Status::getCount()['closed']);
+        $this->assertEquals(2, Status::getCount()['implemented']);
+        $this->assertEquals(1, Status::getCount()['closed']);
     }
 }

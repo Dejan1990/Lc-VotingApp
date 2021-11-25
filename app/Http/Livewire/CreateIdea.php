@@ -22,25 +22,27 @@ class CreateIdea extends Component
 
     public function createIdea()
     {
-        if (auth()->check()) {
-            $this->validate();
-
-            Idea::create([
-                'user_id' => auth()->id(),
-                'category_id' => $this->category,
-                'status_id' => 1,
-                'title' => $this->title,
-                'description' => $this->description
-            ]);
-
-            //session()->flash('success_message', 'Idea was created successfully!');
-            $this->reset();
-            return redirect()
-                ->route('idea.index')
-                ->with('success_message', 'Idea was created successfully!');
+        if (auth()->guest()) {
+            abort(Response::HTTP_FORBIDDEN); // abort(403)
         }
+        //abort_if(auth()->guest(), Response::FORBIDDEN);
 
-        abort(Response::HTTP_FORBIDDEN); //abort(403)
+        $this->validate();
+
+        $idea = Idea::create([
+            'user_id' => auth()->id(),
+            'category_id' => $this->category,
+            'status_id' => 1,
+            'title' => $this->title,
+            'description' => $this->description,
+        ]);
+
+        $idea->vote(auth()->user());
+        //session()->flash('success_message', 'Idea was created successfully!');
+        $this->reset();
+        return redirect()
+            ->route('idea.index')
+            ->with('success_message', 'Idea was created successfully!');
     }
 
     public function render()
