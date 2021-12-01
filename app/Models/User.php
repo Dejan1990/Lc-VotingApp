@@ -78,8 +78,8 @@ class User extends Authenticatable
     {
         return in_array($this->email, [
             'admin@mail.com',
-            'ibartell@example.org',
-            'katlyn24@example.net'
+            'dusty49@example.org',
+            'roel56@example.org'
         ]);
     }
 }
