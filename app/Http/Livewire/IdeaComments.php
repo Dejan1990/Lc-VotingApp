@@ -14,8 +14,15 @@ class IdeaComments extends Component
     public Idea $idea;
 
     protected $listeners = [
-        'commentWasAdded' => '$refresh'
+        'commentWasAdded' => '$refresh',
+        'commentWasDeleted'
     ];
+
+    public function commentWasDeleted()
+    {
+        $this->idea->refresh();
+        $this->goToPage(1);
+    }
 
     public function commentWasAdded()
     {

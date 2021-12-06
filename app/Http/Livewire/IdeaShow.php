@@ -18,7 +18,8 @@ class IdeaShow extends Component
         'ideaWasUpdated' => '$refresh',
         'ideaWasMarkedAsNotSpam' => '$refresh',
         'ideaWasMarkedAsSpam' => '$refresh',
-        'commentWasAdded' => '$refresh'
+        'commentWasAdded' => '$refresh',
+        'commentWasDeleted' => '$refresh'
       ];
 
     public function mount(Idea $idea, $votesCount)
