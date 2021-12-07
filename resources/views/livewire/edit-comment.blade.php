@@ -55,7 +55,7 @@
                             id="idea" 
                             cols="30" 
                             rows="4" 
-                            class="w-full bg-gray-100 rounded-xl border-none placeholder-gray-900 text-sm px-4 py-2" placeholder="Describe your idea" 
+                            class="w-full bg-gray-100 rounded-xl border-none placeholder-gray-900 text-sm px-4 py-2" placeholder="Type your comment here" 
                             required
                         ></textarea>
                         @error('body')

@@ -149,4 +149,21 @@ class OtherFiltersTest extends TestCase
                     && $ideas->get(2)->id === 1;
             });
     }
+
+    /** @test */
+    public function spam_comments_filter_works()
+    {
+        $user = User::factory()->admin()->create();
+
+        Idea::factory()->hasComments(['spam_reports' => 3])->create();
+        Idea::factory()->hasComments(['spam_reports' => 5])->create();
+        Idea::factory()->hasComments()->create();
+
+        Livewire::actingAs($user)
+            ->test(IdeasIndex::class)
+            ->set('filter', 'Spam Comments')
+            ->assertViewHas('ideas', function ($ideas) {
+                return $ideas->count() === 2;
+            });
+    }
 }
