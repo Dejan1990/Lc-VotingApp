@@ -39,7 +39,9 @@ class AddComment extends Component
         $this->reset('comment');
 
         //Ako necemo da nam stize notifikacija kad komentarisemo sopstvenu ideju, ovde postavljamo uslov
-        $this->idea->user->notify(new CommentAdded($newComment));
+        if ($this->idea->user_id !== auth()->id()) {
+            $this->idea->user->notify(new CommentAdded($newComment));
+        }
 
         $this->emit('commentWasAdded', 'Comment was posted!');
     }
