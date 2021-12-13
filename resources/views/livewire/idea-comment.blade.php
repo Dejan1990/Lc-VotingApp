@@ -48,7 +48,7 @@
 
                     <div 
                         x-data="{ isOpen: false }"
-                        class="flex items-center space-x-2" 
+                        class="text-gray-900 flex items-center space-x-2" 
                     >
                         <div class="relative">
                             <button

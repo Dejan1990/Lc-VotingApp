@@ -49,7 +49,7 @@
                     <div>&bull;</div>
                     <div>{{ $idea->category->name }}</div>
                     <div>&bull;</div>
-                    <div class="text-gray-900">
+                    <div wire:ignore class="text-gray-900">
                         {{ $idea->comments_count }} {{ Str::plural('comment', $idea->comments_count) }}
                     </div>
                 </div>
