@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Idea;
 use App\Models\User;
+use App\Models\Status;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CommentFactory extends Factory
@@ -18,6 +19,7 @@ class CommentFactory extends Factory
         return [
             'user_id' => User::factory(),
             'idea_id' => Idea::factory(),
+            'status_id' => Status::factory(),
             'body' => $this->faker->paragraph(5),
         ];
     }
@@ -27,6 +29,7 @@ class CommentFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'user_id' => $this->faker->numberBetween(1, 20),
+                'status_id' => 1
             ];
         });
     }
