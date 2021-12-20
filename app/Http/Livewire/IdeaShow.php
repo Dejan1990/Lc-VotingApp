@@ -18,6 +18,7 @@ class IdeaShow extends Component
 
     protected $listeners = [
         'statusWasUpdated' => '$refresh',
+        'statusWasUpdatedError' => '$refresh',
         'ideaWasUpdated' => '$refresh',
         'ideaWasMarkedAsNotSpam' => '$refresh',
         'ideaWasMarkedAsSpam' => '$refresh',
