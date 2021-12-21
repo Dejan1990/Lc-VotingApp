@@ -9,7 +9,6 @@ use App\Http\Livewire\DeleteIdea;
 use App\Http\Livewire\IdeaShow;
 use App\Models\Comment;
 use App\Models\Vote;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Livewire\Livewire;

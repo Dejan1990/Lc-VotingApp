@@ -43,7 +43,7 @@ class StatusFiltersTest extends TestCase
         Idea::factory()->create(['status_id' => $statusClosed->id]);
         Idea::factory()->create(['status_id' => $statusConsidering->id]);
 
-        Livewire::test(StatusFilters::class)
+        livewire::test(StatusFilters::class)
             ->assertSee('All Ideas (3)')
             ->assertSee('Closed (2)')
             ->assertSee('Considering (1)');
@@ -53,19 +53,13 @@ class StatusFiltersTest extends TestCase
     public function filtering_works_when_query_string_in_place()
     // checking if the query string actially filter the statuses
     {
-        $statusClosed = Status::factory()->create(['name' => 'Closed']);
-        $statusConsidering = Status::factory()->create(['name' => 'Considering']);
-
-        Idea::factory()->create(['status_id' => $statusClosed->id]);
-        Idea::factory()->create(['status_id' => $statusClosed->id]);
-        Idea::factory()->create(['status_id' => $statusClosed->id]);
-        Idea::factory()->create(['status_id' => $statusConsidering->id]);
-        Idea::factory()->create(['status_id' => $statusConsidering->id]);
+        Idea::factory(4)->forStatus(['name' => 'Closed'])->create();
+        Idea::factory(2)->forStatus(['name' => 'Considering'])->create();
 
         Livewire::withQueryParams(['status' => 'Closed'])
             ->test(IdeasIndex::class)
             ->assertViewHas('ideas', function ($ideas) {
-                return $ideas->count() === 3
+                return $ideas->count() === 4
                     && $ideas->first()->status->name === 'Closed';
             });
     }

@@ -9,7 +9,6 @@ use Livewire\Livewire;
 use Illuminate\Http\Response;
 use App\Http\Livewire\IdeaShow;
 use App\Http\Livewire\IdeaIndex;
-use App\Http\Livewire\IdeasIndex;
 use App\Http\Livewire\MarkIdeaAsSpam;
 use App\Http\Livewire\MarkIdeaAsNotSpam;
 use Illuminate\Foundation\Testing\RefreshDatabase;

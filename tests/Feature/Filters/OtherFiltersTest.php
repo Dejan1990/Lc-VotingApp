@@ -7,7 +7,6 @@ use Tests\TestCase;
 use App\Models\Idea;
 use App\Models\User;
 use App\Models\Vote;
-use App\Models\Status;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
@@ -19,47 +18,23 @@ class OtherFiltersTest extends TestCase
     /** @test */
     public function top_voted_filter_works()
     {
-        $user = User::factory()->create();
-        $userB = User::factory()->create();
-        $userC = User::factory()->create();
-
-        $ideaOne = Idea::factory()->create([]);
-        $ideaTwo = Idea::factory()->create([]);
-
-        Vote::factory()->create([
-            'idea_id' => $ideaOne->id,
-            'user_id' => $user->id,
-        ]);
-
-        Vote::factory()->create([
-            'idea_id' => $ideaOne->id,
-            'user_id' => $userB->id,
-        ]);
-
-        Vote::factory()->create([
-            'idea_id' => $ideaTwo->id,
-            'user_id' => $userC->id,
-        ]);
+       Idea::factory()->hasVotes(5)->create();
+        Idea::factory()->hasVotes(3)->create();
 
         Livewire::test(IdeasIndex::class)
             ->set('filter', 'Top Voted')
             ->assertViewHas('ideas', function ($ideas) {
                 return $ideas->count() === 2
-                    && $ideas->first()->votes()->count() === 2
-                    && $ideas->get(1)->votes()->count() === 1;
+                && $ideas->first()->votes()->count() === 5
+                && $ideas->get(1)->votes()->count() === 3;
             });
     }
 
     /** @test */
     public function my_ideas_filter_works_correctly_when_user_logged_in()
     {
-        $user = User::factory()->create();
-        $userB = User::factory()->create();
-
-        //Idea::factory()->create(['user_id' => $user->id, 'title' => 'My first title']);
-        Idea::factory()->create(['user_id' => $user->id]);
-        Idea::factory()->create(['user_id' => $user->id]);
-        Idea::factory()->create(['user_id' => $userB->id]);
+        $user = User::factory()->hasIdeas(2)->create();
+        $userB = User::factory()->hasIdeas()->create();
 
         Livewire::actingAs($user)
             ->test(IdeasIndex::class)
@@ -84,23 +59,8 @@ class OtherFiltersTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $categoryOne = Category::factory()->create(['name' => 'Category 1']);
-        $categoryTwo = Category::factory()->create(['name' => 'Category 2']);
-
-        Idea::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $categoryOne->id
-        ]);
-
-        Idea::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $categoryOne->id
-        ]);
-
-        Idea::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $categoryTwo->id
-        ]);
+        Idea::factory(2)->forCategory(['name' => 'Category 1'])->create(['user_id' => $user->id]);
+        Idea::factory()->forCategory(['name' => 'Category 2'])->create(['user_id' => $user->id]);
 
         Livewire::actingAs($user)
             ->test(IdeasIndex::class)
@@ -116,15 +76,13 @@ class OtherFiltersTest extends TestCase
     /** @test */
     public function no_filters_works_correctly()
     {
-        Idea::factory()->create();
-        Idea::factory()->create();
-        Idea::factory()->create();
+       Idea::factory(5)->create();
 
         Livewire::test(IdeasIndex::class)
             ->set('filter', '')
             ->assertViewHas('ideas', function ($ideas) {
-                return $ideas->count() === 3
-                    && $ideas->first()->id === 3
+                return $ideas->count() === 5
+                    && $ideas->first()->id === 5
                     && $ideas->last()->id === 1;
             });
     }

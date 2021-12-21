@@ -30,10 +30,10 @@ class AddCommentTest extends TestCase
     /** @test */
     public function add_comment_form_renders_when_user_is_logged_in()
     {
-        //$user = User::factory()->create();
+        $user = User::factory()->create();
         $idea = Idea::factory()->create();
 
-        $this->actingAs($idea->user)
+        $this->actingAs($user)
             ->get(route('idea.show', $idea))
             ->assertSee('Share your thoughts');
     }

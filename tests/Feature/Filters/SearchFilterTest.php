@@ -5,9 +5,6 @@ namespace Tests\Feature;
 use App\Http\Livewire\IdeasIndex;
 use Tests\TestCase;
 use App\Models\Idea;
-use App\Models\User;
-use App\Models\Vote;
-use App\Models\Status;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
@@ -48,7 +45,7 @@ class SearchFilterTest extends TestCase
     /** @test */
     public function search_works_correctly_with_category_filters()
     {
-        $categoryOne = Category::factory()->create(['name' => 'Category 1']);
+       /* $categoryOne = Category::factory()->create(['name' => 'Category 1']);
         $categoryTwo = Category::factory()->create(['name' => 'Category 2']);
 
         Idea::factory()->create([
@@ -64,6 +61,24 @@ class SearchFilterTest extends TestCase
         Idea::factory()->create([
             'title' => 'My Third Idea',
             'category_id' => $categoryTwo->id,
+        ]);*/
+
+        $categoryOne = Category::factory()->create(['name' => 'Category 1']);
+        $categoryTwo = Category::factory()->create(['name' => 'Category 2']);
+
+        Idea::factory()->create([
+            'title' => 'First idea',
+            'category_id' => $categoryOne->id
+        ]);
+
+        Idea::factory()->create([
+            'title' => 'Second idea',
+            'category_id' => $categoryOne->id
+        ]);
+
+        Idea::factory()->create([
+            'title' => 'Third idea',
+            'category_id' => $categoryTwo->id
         ]);
 
         Livewire::test(IdeasIndex::class)
@@ -71,10 +86,10 @@ class SearchFilterTest extends TestCase
             ->set('search', 'idea')
             ->assertViewHas('ideas', function ($ideas) {
                 return $ideas->count() === 2
-                    && $ideas->first()->title === 'My Second Idea'
-                    && $ideas->first()->category->name === 'Category 1'
-                    && $ideas->get(1)->title === 'My First Idea'
-                    && $ideas->get(1)->category->name === 'Category 1';
+                && $ideas->first()->title === 'Second idea'
+                && $ideas->first()->category->name === 'Category 1'
+                && $ideas->get(1)->title === 'First idea'
+                && $ideas->get(1)->category->name === 'Category 1';
             });
     }
 }

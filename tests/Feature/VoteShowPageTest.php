@@ -5,11 +5,8 @@ namespace Tests\Feature;
 use App\Http\Livewire\IdeaShow;
 use Tests\TestCase;
 use App\Models\User;
-use App\Models\Status;
-use App\Models\Category;
 use App\Models\Idea;
 use App\Models\Vote;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 

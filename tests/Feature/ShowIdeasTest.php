@@ -4,9 +4,6 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Idea;
-use App\Models\User;
-use App\Models\Status;
-use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShowIdeasTest extends TestCase
@@ -16,12 +13,8 @@ class ShowIdeasTest extends TestCase
     /** @test */
     public function list_of_ideas_shows_on_main_page()
     {
-        $statusOpen = Status::factory()->create(['name' => 'OpenUnique']);
-        $statusConsidering = Status::factory()->create(['name' => 'ConsideringUnique']);
-        $statusImplemented = Status::factory()->create(['name' => 'ImplementedUnique']);
-
-        Idea::factory()->create(['title' => 'First title', 'status_id' => $statusOpen->id]);
-        Idea::factory()->create(['title' => 'Second title', 'status_id' => $statusConsidering->id]);
+        Idea::factory()->forStatus(['name' => 'OpenUnique'])->create(['title' => 'First title']);
+        Idea::factory()->forStatus(['name' => 'ConsideringUnique'])->create(['title' => 'Second title']);
 
         $response = $this->get('/');
         $response->assertSuccessful();
@@ -29,23 +22,19 @@ class ShowIdeasTest extends TestCase
         $response->assertSee('Second title');
         $response->assertSee('ConsideringUnique');
         $response->assertSee('OpenUnique');
-        $response->assertDontSee('ImplementedUnique');
+        $this->assertEquals(2, Idea::count());
     }
 
     /** @test */
     public function single_idea_shows_correctly_on_the_show_page()
     {
-        $categoryOne = Category::factory()->create(['name' => 'Category Unique']);
-        $statusOpen = Status::factory()->create(['name' => 'OpenUnique']);
+        $idea = Idea::factory()->forCategory(['name' => 'Category Unique'])
+            ->forStatus(['name' => 'OpenUnique'])
+            ->create(['title' => 'My idea']);
 
-        $idea = Idea::factory()->create([
-            'category_id' => $categoryOne->id,
-            'status_id' => $statusOpen->id,
-            'title' => 'My First Idea',
-        ]);
         $response = $this->get(route('idea.show', $idea));
         $response->assertSuccessful();
-        $response->assertSee('My First Idea');
+        $response->assertSee('My idea');
         $response->assertSee('Category Unique');
         $response->assertSee('OpenUnique');
     }

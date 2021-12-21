@@ -6,7 +6,6 @@ use Tests\TestCase;
 use App\Models\Idea;
 use App\Models\User;
 use App\Models\Comment;
-use App\Http\Livewire\IdeaComment;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShowCommentsTest extends TestCase

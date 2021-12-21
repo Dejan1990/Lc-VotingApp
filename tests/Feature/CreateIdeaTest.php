@@ -59,8 +59,8 @@ class CreateIdeaTest extends TestCase
     public function creating_an_idea_works_correctly()
     {
         $user = User::factory()->create();
-        $categoryOne = Category::factory()->create(['name' => 'Category 1']);
-        $statusOpen = Status::factory()->create(['name' => 'Open']);
+        $categoryOne = Category::factory()->create();
+        $statusConsidering = Status::factory()->create();
 
         Livewire::actingAs($user)
             ->test(CreateIdea::class)

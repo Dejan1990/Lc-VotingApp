@@ -7,7 +7,6 @@ use App\Models\Idea;
 use App\Models\User;
 use App\Models\Status;
 use Livewire\Livewire;
-use App\Models\Category;
 use PHPUnit\Framework\Test;
 use App\Http\Livewire\SetStatus;
 use App\Jobs\NotifyAllVoters;
@@ -44,8 +43,7 @@ class AdminSetStatusTest extends TestCase
     public function initial_status_is_set_correctly()
     {
         $user = User::factory()->admin()->create();
-        $statusConsidering = Status::factory()->create(['id' => 2, 'name' => 'Considering']);
-
+        $statusConsidering = Status::factory()->create();
         $idea = Idea::factory()->create(['status_id' => $statusConsidering->id]);
 
         Livewire::actingAs($user)
@@ -59,8 +57,8 @@ class AdminSetStatusTest extends TestCase
     public function can_set_status_correctly_no_comment()
     {
         $user = User::factory()->admin()->create();
-        $statusConsidering = Status::factory()->create(['id' => 2, 'name' => 'Considering']);
-        $statusInProgress = Status::factory()->create(['id' => 3, 'name' => 'In Progress']);
+        $statusConsidering = Status::factory()->create();
+        $statusInProgress = Status::factory()->create();
 
         $idea = Idea::factory()->create([
             'status_id' => $statusInProgress->id
@@ -121,8 +119,8 @@ class AdminSetStatusTest extends TestCase
     {
         $user = User::factory()->admin()->create();
 
-        $statusConsidering = Status::factory()->create(['id' => 2, 'name' => 'Considering']);
-        $statusInProgress = Status::factory()->create(['id' => 3, 'name' => 'In Progress']);
+        $statusConsidering = Status::factory()->create();
+        $statusInProgress = Status::factory()->create();
 
         $idea = Idea::factory()->create([
             'status_id' => $statusConsidering->id
